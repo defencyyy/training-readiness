@@ -47,6 +47,12 @@ $total_complete = $task_data['total_complete'];
 $percent_complete = ($total_tasks > 0) ? ($total_complete / $total_tasks) * 100 : 0;
 $percent_in_progress = ($total_tasks > 0) ? ($total_in_progress / $total_tasks) * 100 : 0;
 $percent_incomplete = ($total_tasks > 0) ? ($total_incomplete / $total_tasks) * 100 : 0;
+echo "<script>";
+echo "var TotalTasks = " . $total_tasks . ";";
+echo "var TotalComplete = " . $total_complete . ";";
+echo "var TotalInProgress = " . $total_in_progress . ";";
+echo "var TotalIncomplete = " . $total_incomplete . ";";
+echo "</script>";
 
 // If the user is an admin, retrieve overall task analytics
 if ($user_role == 1) {
@@ -74,9 +80,6 @@ if ($user_role == 1) {
     echo "var overallTotalComplete = " . $overall_total_complete . ";";
     echo "var overallTotalInProgress = " . $overall_total_in_progress . ";";
     echo "var overallTotalIncomplete = " . $overall_total_incomplete . ";";
-    echo "var overallPercentComplete = " . $overall_percent_complete . ";";
-    echo "var overallPercentInProgress = " . $overall_percent_in_progress . ";";
-    echo "var overallPercentIncomplete = " . $overall_percent_incomplete . ";";
     echo "</script>";
 }
 $stmt = $obj_admin->db->prepare("SELECT t_title, status, COUNT(*) as count FROM task_info GROUP BY t_title, status");
@@ -287,7 +290,7 @@ include("include/sidebar.php");
     var completeChart = new Chart(ctxComplete, {
         type: 'doughnut',
         data: {
-            labels: ['Complete', 'Total Tasks'],
+            labels: ['Complete: ' + TotalComplete, 'Total Tasks: ' + TotalTasks],
             datasets: [{
                 data: [<?php echo $percent_complete; ?>, 100 - <?php echo $percent_complete; ?>],
                 backgroundColor: ['#00B16A', '#dad9d9']
@@ -306,7 +309,7 @@ include("include/sidebar.php");
     var inProgressChart = new Chart(ctxInProgress, {
         type: 'doughnut',
         data: {
-            labels: ['In Progress', 'Total Tasks'],
+            labels: ['In Progress: ' + TotalInProgress, 'Total Tasks: ' + TotalTasks],
             datasets: [{
                 data: [<?php echo $percent_in_progress; ?>, 100 - <?php echo $percent_in_progress; ?>],
                 backgroundColor: ['#FFC107', '#dad9d9']
@@ -325,7 +328,7 @@ include("include/sidebar.php");
     var incompleteChart = new Chart(ctxIncomplete, {
         type: 'doughnut',
         data: {
-            labels: ['Incomplete', 'Total Tasks'],
+            labels: ['Incomplete: ' + TotalIncomplete, 'Total Tasks: ' + TotalTasks],
             datasets: [{
                 data: [<?php echo $percent_incomplete; ?>, 100 - <?php echo $percent_incomplete; ?>],
                 backgroundColor: ['#FF5733', '#dad9d9']
