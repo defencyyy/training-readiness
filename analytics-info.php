@@ -125,7 +125,7 @@ include("include/sidebar.php");
                     echo "<div class='task-container'>";
                     echo "<h3>Task: $title</h3>";
                     echo "<div class='chart-container'>";
-                    echo "<canvas class='completeChart' data-value='" . (($stats['complete'] / $total) * 100) . "'></canvas>";
+                    echo "<canvas class='completeChart' data-value='" . (($stats['complete'] / $total) * 100) . "'data-total='" . $total . "'></canvas>";
                     echo "<canvas class='inProgressChart' data-value='" . (($stats['in_progress'] / $total) * 100) . "'></canvas>";
                     echo "<canvas class='incompleteChart' data-value='" . (($stats['incomplete'] / $total) * 100) . "'></canvas>";
                     echo "</div>";
@@ -220,25 +220,37 @@ include("include/sidebar.php");
 
             completeCharts.forEach(function(chart) {
                 var value = parseInt(chart.getAttribute('data-value'));
-                createDonutChart(chart, value, 'Complete', '#00B16A');
+                var total = parseInt(chart.getAttribute('data-total'));
+                var completeCount = parseInt(chart.getAttribute('data-complete-count'));
+                var inProgressCount = parseInt(chart.getAttribute('data-in-progress-count'));
+                var incompleteCount = parseInt(chart.getAttribute('data-incomplete-count'));
+                createDonutChart(chart, value, 'Complete', '#00B16A', total, completeCount, inProgressCount, incompleteCount);
             });
 
             inProgressCharts.forEach(function(chart) {
                 var value = parseInt(chart.getAttribute('data-value'));
-                createDonutChart(chart, value, 'In Progress', '#FFC107');
+                var total = parseInt(chart.getAttribute('data-total'));
+                var completeCount = parseInt(chart.getAttribute('data-complete-count'));
+                var inProgressCount = parseInt(chart.getAttribute('data-in-progress-count'));
+                var incompleteCount = parseInt(chart.getAttribute('data-incomplete-count'));
+                createDonutChart(chart, value, 'In Progress', '#FFC107', total, completeCount, inProgressCount, incompleteCount);
             });
 
             incompleteCharts.forEach(function(chart) {
                 var value = parseInt(chart.getAttribute('data-value'));
-                createDonutChart(chart, value, 'Incomplete', '#FF5733');
+                var total = parseInt(chart.getAttribute('data-total'));
+                var completeCount = parseInt(chart.getAttribute('data-complete-count'));
+                var inProgressCount = parseInt(chart.getAttribute('data-in-progress-count'));
+                var incompleteCount = parseInt(chart.getAttribute('data-incomplete-count'));
+                createDonutChart(chart, value, 'Incomplete', '#FF5733', total, completeCount, inProgressCount, incompleteCount);
             });
 
-            function createDonutChart(canvas, value, label, color) {
+            function createDonutChart(canvas, value, label, color, total, completeCount, inProgressCount, incompleteCount) {
                 var ctx = canvas.getContext('2d');
                 new Chart(ctx, {
                     type: 'doughnut',
                     data: {
-                        labels: [label, 'Total'],
+                        labels: [label + ': ' + value + '%', 'Total: ' + total],
                         datasets: [{
                             data: [value, 100 - value],
                             backgroundColor: [color, '#dad9d9']
@@ -247,7 +259,7 @@ include("include/sidebar.php");
                     options: {
                         title: {
                             display: true,
-                            text: label + ' Tasks'
+                            text: label + ' Tasks (Complete: ' + completeCount + ', In Progress: ' + inProgressCount + ', Incomplete: ' + incompleteCount + ')'
                         },
                         responsive: false,
                         maintainAspectRatio: false
