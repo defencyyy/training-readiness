@@ -126,8 +126,8 @@ include("include/sidebar.php");
                     echo "<h3>Task: $title</h3>";
                     echo "<div class='chart-container'>";
                     echo "<canvas class='completeChart' data-value='" . (($stats['complete'] / $total) * 100) . "'data-total='" . $total . "'></canvas>";
-                    echo "<canvas class='inProgressChart' data-value='" . (($stats['in_progress'] / $total) * 100) . "'></canvas>";
-                    echo "<canvas class='incompleteChart' data-value='" . (($stats['incomplete'] / $total) * 100) . "'></canvas>";
+                    echo "<canvas class='inProgressChart' data-value='" . (($stats['in_progress'] / $total) * 100) . "'data-total='" . $total . "'></canvas>";
+                    echo "<canvas class='incompleteChart' data-value='" . (($stats['incomplete'] / $total) * 100) . "'data-total='" . $total . "'></canvas>";
                     echo "</div>";
                     echo "</div>";
                 }
@@ -250,7 +250,7 @@ include("include/sidebar.php");
                 new Chart(ctx, {
                     type: 'doughnut',
                     data: {
-                        labels: [label + ': ' + value + '%', 'Total: ' + total],
+                        labels: [label + ': ' + total , 'Total: ' + total],
                         datasets: [{
                             data: [value, 100 - value],
                             backgroundColor: [color, '#dad9d9']
