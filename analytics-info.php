@@ -68,6 +68,16 @@ if ($user_role == 1) {
     $overall_percent_complete = ($overall_total_tasks > 0) ? ($overall_total_complete / $overall_total_tasks) * 100 : 0;
     $overall_percent_in_progress = ($overall_total_tasks > 0) ? ($overall_total_in_progress / $overall_total_tasks) * 100 : 0;
     $overall_percent_incomplete = ($overall_total_tasks > 0) ? ($overall_total_incomplete / $overall_total_tasks) * 100 : 0;
+    // Echo PHP variables as JavaScript variables
+    echo "<script>";
+    echo "var overallTotalTasks = " . $overall_total_tasks . ";";
+    echo "var overallTotalComplete = " . $overall_total_complete . ";";
+    echo "var overallTotalInProgress = " . $overall_total_in_progress . ";";
+    echo "var overallTotalIncomplete = " . $overall_total_incomplete . ";";
+    echo "var overallPercentComplete = " . $overall_percent_complete . ";";
+    echo "var overallPercentInProgress = " . $overall_percent_in_progress . ";";
+    echo "var overallPercentIncomplete = " . $overall_percent_incomplete . ";";
+    echo "</script>";
 }
 $stmt = $obj_admin->db->prepare("SELECT t_title, status, COUNT(*) as count FROM task_info GROUP BY t_title, status");
 $stmt->execute();
@@ -125,9 +135,9 @@ include("include/sidebar.php");
                     echo "<div class='task-container'>";
                     echo "<h3>Task: $title</h3>";
                     echo "<div class='chart-container'>";
-                    echo "<canvas class='completeChart' data-value='" . (($stats['complete'] / $total) * 100) . "'data-total='" . $total . "'></canvas>";
-                    echo "<canvas class='inProgressChart' data-value='" . (($stats['in_progress'] / $total) * 100) . "'data-total='" . $total . "'></canvas>";
-                    echo "<canvas class='incompleteChart' data-value='" . (($stats['incomplete'] / $total) * 100) . "'data-total='" . $total . "'></canvas>";
+                    echo "<canvas class='completeChart' data-value='" . (($stats['complete'] / $total) * 100) . "'data-total='" . $total . "'data-count='" . $stats['complete'] . "'></canvas>";
+                    echo "<canvas class='inProgressChart' data-value='" . (($stats['in_progress'] / $total) * 100) . "'data-total='" . $total . "'data-count='" . $stats['in_progress'] . "'></canvas>";
+                    echo "<canvas class='incompleteChart' data-value='" . (($stats['incomplete'] / $total) * 100) . "'data-total='" . $total . "'data-count='" . $stats['incomplete'] . "'></canvas>";
                     echo "</div>";
                     echo "</div>";
                 }
@@ -160,7 +170,7 @@ include("include/sidebar.php");
         var overallCompleteChart = new Chart(ctxOverallComplete, {
             type: 'doughnut',
             data: {
-                labels: ['Complete', 'Total Tasks'],
+                labels: ['Complete: ' + overallTotalComplete, 'Total Tasks: ' + overallTotalTasks],
                 datasets: [{
                     data: [<?php echo $overall_percent_complete; ?>, 100 - <?php echo $overall_percent_complete; ?>],
                     backgroundColor: ['#00B16A', '#dad9d9']
@@ -179,7 +189,7 @@ include("include/sidebar.php");
         var overallInProgressChart = new Chart(ctxOverallInProgress, {
             type: 'doughnut',
             data: {
-                labels: ['In Progress', 'Total Tasks'],
+                labels: ['In Progress: ' + overallTotalInProgress, 'Total Tasks: ' + overallTotalTasks],
                 datasets: [{
                     data: [<?php echo $overall_percent_in_progress; ?>, 100 - <?php echo $overall_percent_in_progress; ?>],
                     backgroundColor: ['#FFC107', '#dad9d9']
@@ -198,7 +208,7 @@ include("include/sidebar.php");
         var overallIncompleteChart = new Chart(ctxOverallIncomplete, {
             type: 'doughnut',
             data: {
-                labels: ['Incomplete', 'Total Tasks'],
+                labels: ['Incomplete: ' + overallTotalIncomplete, 'Total Tasks: ' + overallTotalTasks],
                 datasets: [{
                     data: [<?php echo $overall_percent_incomplete; ?>, 100 - <?php echo $overall_percent_incomplete; ?>],
                     backgroundColor: ['#FF5733', '#dad9d9']
@@ -247,10 +257,11 @@ include("include/sidebar.php");
 
             function createDonutChart(canvas, value, label, color, total, completeCount, inProgressCount, incompleteCount) {
                 var ctx = canvas.getContext('2d');
+                var count = canvas.getAttribute('data-count');
                 new Chart(ctx, {
                     type: 'doughnut',
                     data: {
-                        labels: [label + ': ' + value + '%', 'Total: ' + total],
+                        labels: [label + ': ' + count, 'Total: ' + total],
                         datasets: [{
                             data: [value, 100 - value],
                             backgroundColor: [color, '#dad9d9']
