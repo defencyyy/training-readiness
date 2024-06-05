@@ -250,7 +250,7 @@ include("include/sidebar.php");
                 new Chart(ctx, {
                     type: 'doughnut',
                     data: {
-                        labels: [label + ': ' + total , 'Total: ' + total],
+                        labels: [label + ': ' + value + '%', 'Total: ' + total],
                         datasets: [{
                             data: [value, 100 - value],
                             backgroundColor: [color, '#dad9d9']
