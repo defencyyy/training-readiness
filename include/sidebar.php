@@ -17,7 +17,6 @@
   <script src="assets/bootstrap-datepicker/js/datepicker-custom.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script type="text/javascript">
-
     function check_delete() {
       var check = confirm('Are you sure you want to delete this?');
       if (check) {
@@ -56,7 +55,12 @@
             <li <?php if ($page_name == "Admin") {
                   echo "class=\"active\"";
                 } ?>><a href="manage-admin.php">Admin<span style="font-size:16px; color:#d4ab3a;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+            <li <?php if ($page_name == "Analytics") {
+                  echo "class=\"active\"";
+                } ?>><a href="analytics-info.php">Analytics<span style="font-size:16px; color:#d4ab3a;" class="pull-right hidden-xs showopacity glyphicon glyphicon-stats"></span></a></li>
+
             <li><a href="?logout=logout">Logout<span style="font-size:16px; color:#d4ab3a;" class="pull-right hidden-xs showopacity glyphicon glyphicon-log-out"></span></a></li>
+
           </ul>
         </div>
       <?php
@@ -86,4 +90,4 @@
     </div>
   </nav>
 
-<div class="main">
+  <div class="main">
