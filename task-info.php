@@ -13,28 +13,108 @@ if ($user_id == NULL || $security_key == NULL) {
 // check admin
 $user_role = $_SESSION['user_role'];
 
-
 if (isset($_GET['delete_task'])) {
   $action_id = $_GET['task_id'];
-
   $sql = "DELETE FROM task_info WHERE task_id = :id";
   $sent_po = "task-info.php";
   $obj_admin->delete_data_by_this_method($sql, $action_id, $sent_po);
 }
 
 if (isset($_POST['add_task_post'])) {
-  $obj_admin->add_new_task($_POST);
+  $task_title = $_POST['task_title'];
+  $task_description = $_POST['task_description'];
+  $start_time = $_POST['t_start_time'];
+  $end_time = $_POST['t_end_time'];
+  $assigned_to = $_POST['assign_to']; // This will be an array of user IDs
+
+  // Iterate through each selected user and insert a task for each user
+  foreach ($assigned_to as $user_id) {
+    $sql = "INSERT INTO task_info (t_title, t_description, t_start_time, t_end_time, t_user_id) VALUES (:task_title, :task_description, :start_time, :end_time, :user_id)";
+    $stmt = $obj_admin->db->prepare($sql);
+    $stmt->bindParam(':task_title', $task_title);
+    $stmt->bindParam(':task_description', $task_description);
+    $stmt->bindParam(':start_time', $start_time);
+    $stmt->bindParam(':end_time', $end_time);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+  }
+
+  // Redirect or display a success message
+  header('Location: task-info.php');
 }
 
 $page_name = "Task_Info";
 include("include/sidebar.php");
-// include('ems_header.php');
-
 
 ?>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+<script>
+  $(document).ready(function() {
+    $('#aassign_to').select2({
+      placeholder: "Select Employee...",
+      allowClear: true,
+      width: "100%"
+    });
+  });
+</script>
+<style>
+  .select2-container--default .select2-selection--multiple {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px;
+    height: auto;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #5bc0de;
+    border: 1px solid #46b8da;
+    padding: 3px 10px;
+    color: #fff;
+    border-radius: 4px;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #fff;
+    margin-right: 8px;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+    color: #fff;
+    background-color: #d9534f;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    background-color: transparent;
+    border: none;
+    /* border-right: 1px solid #aaa; */
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 0 4px;
+
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+    cursor: default;
+    padding-left: 20px;
+    padding-right: 5px;
+  }
+
+  .select2-container .select2-search--inline .select2-search__field {
+    height: 21px;
+  }
+</style>
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">
   <div class="modal-dialog add-category-modal">
@@ -81,13 +161,13 @@ include("include/sidebar.php");
                     $sql = "SELECT user_id, fullname FROM tbl_admin WHERE user_role = 2";
                     $info = $obj_admin->manage_all_info($sql);
                     ?>
-                    <select class="form-control" name="assign_to" id="aassign_to" required>
+                    <select class="form-control" name="assign_to[]" id="aassign_to" aria-multiselectable="true" multiple required>
                       <option value="">Select Employee...</option>
-
                       <?php while ($row = $info->fetch(PDO::FETCH_ASSOC)) { ?>
                         <option value="<?php echo $row['user_id']; ?>"><?php echo $row['fullname']; ?></option>
                       <?php } ?>
                     </select>
+
                   </div>
 
                 </div>
