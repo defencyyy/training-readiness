@@ -195,102 +195,69 @@ include("include/sidebar.php");
 
 
 
-<div class="row">
-  <div class="col-md-12">
-    <div class="well well-custom">
-      <div class="gap"></div>
-      <div class="row">
-        <div class="col-md-8">
-          <div class="btn-group">
-            <?php if ($user_role == 1) { ?>
-              <div class="btn-group">
-                <button class="btn btn-warning btn-menu" data-toggle="modal" data-target="#myModal">Assign New Task</button>
-              </div>
-            <?php } ?>
-
-          </div>
-
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-custom">
+                <div class="gap"></div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="btn-group">
+                            <?php if ($user_role == 1) { ?>
+                                <div class="btn-group">
+                                    <button class="btn btn-warning btn-menu" data-toggle="modal" data-target="#myModal">Assign New Task</button>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+                <center>
+                    <h3>Task Management Section</h3>
+                </center>
+                <div class="gap"></div>
+                <div class="gap"></div>
+                <div class="table-responsive">
+                    <table class="table table-codensed table-custom">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Employee Name</th>
+                                <th>View Task</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            // Fetch employee names from tbl_admin
+                            $sql = "SELECT user_id, fullname FROM tbl_admin WHERE user_role = 2 ORDER BY user_id DESC";
+                            $info = $obj_admin->manage_all_info($sql);
+                            $serial = 1;
+                            $num_row = $info->rowCount();
+                            if ($num_row == 0) {
+                                echo '<tr><td colspan="3">No Data found</td></tr>';
+                            } else {
+                                while ($row = $info->fetch(PDO::FETCH_ASSOC)) {
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $serial++; ?></td>
+                                        <td><?php echo $row['fullname']; ?></td>
+                                        <td>
+                                            <a title="View" href="task-details.php?user_id=<?php echo $row['user_id']; ?>">
+                                                <span class="glyphicon glyphicon-folder-open"></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-
-
-      </div>
-      <center>
-        <h3>Task Management Section</h3>
-      </center>
-      <div class="gap"></div>
-
-      <div class="gap"></div>
-
-      <div class="table-responsive">
-        <table class="table table-codensed table-custom">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Task Title</th>
-              <th>Assigned To</th>
-              <th>Start Time</th>
-              <th>End Time</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-
-            <?php
-            if ($user_role == 1) {
-              $sql = "SELECT a.*, b.fullname 
-                        FROM task_info a
-                        INNER JOIN tbl_admin b ON(a.t_user_id = b.user_id)
-                        ORDER BY a.task_id DESC";
-            } else {
-              $sql = "SELECT a.*, b.fullname 
-                  FROM task_info a
-                  INNER JOIN tbl_admin b ON(a.t_user_id = b.user_id)
-                  WHERE a.t_user_id = $user_id
-                  ORDER BY a.task_id DESC";
-            }
-
-            $info = $obj_admin->manage_all_info($sql);
-            $serial  = 1;
-            $num_row = $info->rowCount();
-            if ($num_row == 0) {
-              echo '<tr><td colspan="7">No Data found</td></tr>';
-            }
-            while ($row = $info->fetch(PDO::FETCH_ASSOC)) {
-            ?>
-              <tr>
-                <td><?php echo $serial;
-                    $serial++; ?></td>
-                <td><?php echo $row['t_title']; ?></td>
-                <td><?php echo $row['fullname']; ?></td>
-                <td><?php echo $row['t_start_time']; ?></td>
-                <td><?php echo $row['t_end_time']; ?></td>
-                <td>
-                  <?php if ($row['status'] == 1) {
-                    echo "In Progress <span style='color:#d4ab3a;' class=' glyphicon glyphicon-refresh' >";
-                  } elseif ($row['status'] == 2) {
-                    echo "Completed <span style='color:#00af16;' class=' glyphicon glyphicon-ok' >";
-                  } else {
-                    echo "Incomplete <span style='color:#d00909;' class=' glyphicon glyphicon-remove' >";
-                  } ?>
-
-                </td>
-
-                <td><a title="Update Task" href="edit-task.php?task_id=<?php echo $row['task_id']; ?>"><span class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;
-                  <a title="View" href="task-details.php?task_id=<?php echo $row['task_id']; ?>"><span class="glyphicon glyphicon-folder-open"></span></a>&nbsp;&nbsp;
-                  <?php if ($user_role == 1) { ?>
-                    <a title="Delete" href="?delete_task=delete_task&task_id=<?php echo $row['task_id']; ?>" onclick=" return check_delete();"><span class="glyphicon glyphicon-trash"></span></a>
-                </td>
-              <?php } ?>
-              </tr>
-            <?php } ?>
-
-          </tbody>
-        </table>
-      </div>
     </div>
-  </div>
 </div>
+
 
 
 <?php

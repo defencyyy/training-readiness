@@ -8,103 +8,81 @@ $user_name = $_SESSION['name'];
 $security_key = $_SESSION['security_key'];
 if ($user_id == NULL || $security_key == NULL) {
     header('Location: index.php');
+    exit;
 }
 
 // check admin
 $user_role = $_SESSION['user_role'];
 
-$task_id = $_GET['task_id'];
+// Get the user_id from the URL
+$employee_id = isset($_GET['user_id']) ? intval($_GET['user_id']) : null;
 
-
-
-if(isset($_POST['update_task_info'])){
-    $obj_admin->update_task_info($_POST,$task_id, $user_role);
+if (!$employee_id) {
+    echo "<p>Invalid Employee ID.</p>";
+    exit;
 }
 
-$page_name="Edit Task";
-include("include/sidebar.php");
-
+// Fetch tasks for the specific employee
 $sql = "SELECT a.*, b.fullname 
-FROM task_info a
-LEFT JOIN tbl_admin b ON(a.t_user_id = b.user_id)
-WHERE task_id='$task_id'";
-$info = $obj_admin->manage_all_info($sql);
-$row = $info->fetch(PDO::FETCH_ASSOC);
+        FROM task_info a
+        LEFT JOIN tbl_admin b ON a.t_user_id = b.user_id
+        WHERE a.t_user_id = :employee_id";
+$stmt = $obj_admin->db->prepare($sql);
+$stmt->execute(['employee_id' => $employee_id]);
+$tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$page_name = "Employee Tasks";
+include("include/sidebar.php");
 ?>
 
-<!--modal for employee add-->
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
-
-
-    <div class="row">
-      <div class="col-md-12">
+<div class="row">
+    <div class="col-md-12">
         <div class="well well-custom">
-          <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-              <div class="well">
-                <h3 class="text-center bg-primary" style="padding: 7px;">Task Details </h3><br>
-
-                      <div class="row">
-                        <div class="col-md-12">
-
-                        	 <div class="table-responsive">
-				                  <table class="table table-bordered table-single-product">
-				                    <tbody>
-				                      <tr>
-				                        <td>Task Title</td><td><?php echo $row['t_title']; ?></td>
-				                      </tr>
-				                      <tr>
-				                        <td>Description</td><td><?php echo $row['t_description']; ?></td>
-				                      </tr>
-				                      <tr>
-				                        <td>Start Time</td><td><?php echo $row['t_start_time']; ?></td>
-				                      </tr>
-				                      <tr>
-				                        <td>End Time</td><td><?php echo $row['t_end_time']; ?></td>
-				                      </tr>
-				                      <tr>
-				                        <td>Assign To</td><td><?php echo $row['fullname']; ?></td>
-				                      </tr>
-				                      <tr>
-				                        <td>Status</td><td><?php  if($row['status'] == 1){
-											                        echo "In Progress";
-											                    }elseif($row['status'] == 2){
-											                       echo "Completed";
-											                    }else{
-											                      echo "Incomplete";
-											                    } ?></td>
-				                      </tr>
-
-				                    </tbody>
-				                  </table>
-				                </div>
-
-                            <div class="form-group">
-
-                              <div class="col-sm-3">
-                                <a title="Update Task"  href="task-info.php"><span class="btn btn-success-custom btn-xs">Go Back</span></a>
-                              </div>
-                            </div>
-                          </form> 
-                        </div>
-                      </div>
-
-              </div>
+            <h3 class="text-center bg-primary" style="padding: 7px;">Tasks for <?php echo htmlspecialchars($tasks[0]['fullname']); ?></h3><br>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Task Title</th>
+                            <th>Description</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $serial = 1;
+                        foreach ($tasks as $task) {
+                        ?>
+                            <tr>
+                                <td><?php echo $serial; $serial++; ?></td>
+                                <td><?php echo htmlspecialchars($task['t_title']); ?></td>
+                                <td><?php echo htmlspecialchars($task['t_description']); ?></td>
+                                <td><?php echo htmlspecialchars($task['t_start_time']); ?></td>
+                                <td><?php echo htmlspecialchars($task['t_end_time']); ?></td>
+                                <td><?php
+                                    if ($task['status'] == 1) {
+                                        echo "In Progress";
+                                    } elseif ($task['status'] == 2) {
+                                        echo "Completed";
+                                    } else {
+                                        echo "Incomplete";
+                                    }
+                                    ?></td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
             </div>
-          </div>
-
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <a title="Back to Employee List" href="task-info.php"><span class="btn btn-success-custom btn-xs">Go Back</span></a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
+</div>
 
-
-<?php
-
-
-include("include/footer.php");
-
-?>
-
+<?php include("include/footer.php"); ?>
