@@ -111,6 +111,8 @@ $row = $info->fetch(PDO::FETCH_ASSOC);
 
                               <div class="col-sm-3">
                                 <button type="submit" name="update_task_info" class="btn btn-success-custom">Update Now</button>
+								<a href="task-info.php" class="btn btn-success-custom">Cancel</a>
+
                               </div>
                             </div>
                           </form> 
