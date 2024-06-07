@@ -194,7 +194,7 @@ include("include/sidebar.php");
 
 
 
-
+<?php if ($user_role == 1) { ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -203,11 +203,11 @@ include("include/sidebar.php");
                 <div class="row">
                     <div class="col-md-8">
                         <div class="btn-group">
-                            <?php if ($user_role == 1) { ?>
+                            
                                 <div class="btn-group">
                                     <button class="btn btn-warning btn-menu" data-toggle="modal" data-target="#myModal">Assign New Task</button>
                                 </div>
-                            <?php } ?>
+                            
                         </div>
                     </div>
                 </div>
@@ -257,6 +257,75 @@ include("include/sidebar.php");
         </div>
     </div>
 </div>
+<?php } else { // Non-admin user ?>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="well well-custom">
+                    <div class="gap"></div>
+                    <center>
+                        <h3>Your Assigned Tasks</h3>
+                    </center>
+                    <div class="gap"></div>
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-custom">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Task Title</th>
+                                    <th>Description</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                // Fetch tasks for the logged-in user
+                                $sql = "SELECT * FROM task_info WHERE t_user_id = :user_id ORDER BY task_id DESC";
+                                $stmt = $obj_admin->db->prepare($sql);
+                                $stmt->bindParam(':user_id', $user_id);
+                                $stmt->execute();
+                                $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                $serial = 1;
+                                if (empty($tasks)) {
+                                    echo '<tr><td colspan="6">No Tasks found</td></tr>';
+                                } else {
+                                    foreach ($tasks as $task) {
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $serial++; ?></td>
+                                            <td><?php echo htmlspecialchars($task['t_title']); ?></td>
+                                            <td><?php echo htmlspecialchars($task['t_description']); ?></td>
+                                            <td><?php echo htmlspecialchars($task['t_start_time']); ?></td>
+                                            <td><?php echo htmlspecialchars($task['t_end_time']); ?></td>
+                                            <td><?php
+                                                if ($task['status'] == 1) {
+                                                    echo "In Progress";
+                                                } elseif ($task['status'] == 2) {
+                                                    echo "Completed";
+                                                } else {
+                                                    echo "Incomplete";
+                                                }
+                                                ?></td>
+                                                <td><a title="Update Task" href="edit-task.php?task_id=<?php echo $task['task_id']; ?>"><span class="glyphicon glyphicon-edit"></span></a>&nbsp;&nbsp;
+                 
+                                            </td>
+              
+                                        </tr>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>
 
 
 
