@@ -4,28 +4,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo $_SESSION['system']['name'] = "TRMS"; ?></title>
+  <title>Training Readiness Management System</title>
   <link rel="icon" type="image/png" href="assets\pictures\logo.png">
   <link rel="stylesheet" href="assets\css\style.css">
   <link rel="stylesheet" href="assets\css\mediaqueries.css">
-  <?php
-    require 'authentication.php'; // admin authentication check 
+   <?php
+        require 'authentication.php'; // admin authentication check 
 
-    // auth check
-    if(isset($_SESSION['admin_id'])){
-    $user_id = $_SESSION['admin_id'];
-    $user_name = $_SESSION['admin_name'];
-    $security_key = $_SESSION['security_key'];
-    if ($user_id != NULL && $security_key != NULL) {
-        header('Location: task-info.php');
-    }
-    }
+        // auth check
+        if(isset($_SESSION['admin_id'])){
+            $user_id = $_SESSION['admin_id'];
+            $user_name = $_SESSION['admin_name'];
+            $security_key = $_SESSION['security_key'];
+            if ($user_id != NULL && $security_key != NULL) {
+                header('Location: task-info.php');
+            }
+        }
 
-    if(isset($_POST['login_btn'])){
-    $info = $obj_admin->admin_login_check($_POST);
-    }
+        if(isset($_POST['login_btn'])){
+            $info = $obj_admin->admin_login_check($_POST);
+            if ($info) {
+                $_SESSION['login_error'] = $info; // Store the error message in session
+            }
+        }
+   ?>
 
-    ?>
 </head>
 
 <style>
@@ -61,9 +64,6 @@
         <div class="content-form">
           <p class="title-login">Log in </p>
           <form class="login-form" action="" method="POST">
-            <?php if(isset($info)){ ?>
-			<h5 class="alert alert-danger"><?php echo $info; ?></h5>
-			<?php } ?>
             <label class="form-title">Username</label>
             <div class="form-group">
 			    <input type="text" class="input-form" placeholder="Username" name="username" required/>
@@ -78,7 +78,13 @@
       </div>
     </div>
   </section>
-
+  <script>
+    // Check if there's an error message stored in the session
+    <?php if (isset($_SESSION['login_error'])) { ?>
+      alert("<?php echo $_SESSION['login_error']; ?>");
+      <?php unset($_SESSION['login_error']); // Clear the error message ?>
+    <?php } ?>
+  </script>
 </body>
 
 </html>
