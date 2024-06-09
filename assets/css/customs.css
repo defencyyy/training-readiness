@@ -3,7 +3,8 @@ body,
 html {
   height: 100%;
   font-size: 17px;
-  background: #105469;
+  /* background: #105469; */
+  background-color: rgb(152, 152, 0);
   font-family: "Open Sans", sans-serif;
 }
 
@@ -11,6 +12,7 @@ html {
 .main .row {
   padding: 0px;
   margin: 0px;
+
 }
 
 /*Remove rounded coners*/
