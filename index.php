@@ -1,53 +1,71 @@
-<?php
-require 'authentication.php'; // admin authentication check 
+<!DOCTYPE html>
+<html lang="en">
 
-// auth check
-if(isset($_SESSION['admin_id'])){
-  $user_id = $_SESSION['admin_id'];
-  $user_name = $_SESSION['admin_name'];
-  $security_key = $_SESSION['security_key'];
-  if ($user_id != NULL && $security_key != NULL) {
-    header('Location: task-info.php');
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><?php echo $_SESSION['system']['name'] = "TRMS"; ?></title>
+  <link rel="icon" type="image/png" href="assets\pictures\logo.png">
+  <link rel="stylesheet" href="assets\css\style.css">
+  <link rel="stylesheet" href="assets\css\mediaqueries.css">
+</head>
+
+<style>
+  body {
+    background-image: url(assets/pictures/picture1.png);
+    background-size: cover;
+    background-position: center;
+    background-size: auto;
+    background-repeat: no-repeat;
   }
-}
+</style>
 
-if(isset($_POST['login_btn'])){
- $info = $obj_admin->admin_login_check($_POST);
-}
+<body>
 
-$page_name="Login";
-include("include/login_header.php");
+  <!-- ===== Navigation ===== -->
+  <section id="header">
+    <nav class="desktop-nav">
+      <label class="logo"><img src="assets\pictures\logo.png" id="logoimg" /></label>
+      <ul class="nav-links">
+        <li><a href="index.php">Home</a></li>
+        <li><a href="login.php">Login</a></li>
+      </ul>
+    </nav>
 
-?>
+    <nav id="hamburger-nav">
+      <label class="logo"><img src="assets\pictures\logo.png" id="logoimg" /></label>
+      <div class="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="hamburger-links">
+          <li><a href="index.php" onclick="toggleMenu()">Home</a></li>
+          <li><a href="login.php" onclick="toggleMenu()">Login</a></li>
+        </div>
+      </div>
+    </nav>
+  </section>
 
-<div class="row">
-	<div class="col-md-4 col-md-offset-3">
-		<div class="well" style="position:relative;top:20vh;">
-		<center><h2 style="margin-top:1px;">Employee Task Management System</h2></center>
-			<form class="form-horizontal form-custom-login" action="" method="POST">
-			  <div class="form-heading">
-			    <h2 class="text-center">Login Panel</h2>
-			  </div>
-			  
-			  <!-- <div class="login-gap"></div> -->
-			  <?php if(isset($info)){ ?>
-			  <h5 class="alert alert-danger"><?php echo $info; ?></h5>
-			  <?php } ?>
-			  <div class="form-group">
-			    <input type="text" class="form-control" placeholder="Username" name="username" required/>
-			  </div>
-			  <div class="form-group" ng-class="{'has-error': loginForm.password.$invalid && loginForm.password.$dirty, 'has-success': loginForm.password.$valid}">
-			    <input type="password" class="form-control" placeholder="Password" name="admin_password" required/>
-			  </div>
-			  <button type="submit" name="login_btn" class="btn btn-info pull-right">Login</button>
-			</form>
-		</div>
-	</div>
-</div>
+  <!-- ===== Home ===== -->
+  <section id="home">
+    <div class="content-text">
+      Unleash your Potential, <br>
+      One Rep at a time!
+    </div>
+  </section>
 
 
-<?php
+</body>
 
-include("include/footer.php");
+</html>
 
-?>
+<script>
+  function toggleMenu() {
+    const menu = document.querySelector(".hamburger-links");
+    const icon = document.querySelector(".hamburger-icon");
+    menu.classList.toggle("open");
+    icon.classList.toggle("open");
+  }
+</script>

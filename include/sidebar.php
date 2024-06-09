@@ -2,13 +2,14 @@
 <html lang="en">
 
 <head>
-  <title>Employee Task Management System</title>
+  <title>Training Readiness Management System</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/bootstrap.theme.min.css">
   <link rel="stylesheet" href="assets/bootstrap-datepicker/css/datepicker.css">
   <link rel="stylesheet" href="assets/bootstrap-datepicker/css/datepicker-custom.css">
+  <link rel="icon" type="image/png" href="assets\pictures\logo.png">
   <link rel="stylesheet" href="assets/css/customs.css">
   <script src="assets/js/jquery.min.js"></script>
   <script src="assets/js/bootstrap.min.js"></script>
@@ -40,7 +41,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="task-info.php"><span style="color: #d4ab3a; font-weight: bold;">ETMS</span></a>
+        <a class="navbar-brand" href="task-info.php"><span style="color: #d4ab3a; font-weight: bold;">TRMS</span></a>
       </div>
 
       <?php

@@ -1,0 +1,79 @@
+@media (min-width: 1600px) and (max-width: 1920px) {
+  #loginpic {
+    width: 1200px;
+  }
+
+  .content-left {
+    margin-left: -100px;
+    margin-top: -70px;
+  }
+
+  #formpic {
+    height: 550px;
+  }
+
+  .content-right {
+    margin-top: 190px;
+    margin-left: 40px;
+  }
+
+  .title-login {
+    top: 350px;
+    right: 620px;
+  }
+
+  .login-form {
+    top: 520px;
+    right: 160px;
+  }
+
+  .forgot-pass {
+    bottom: 390px;
+    right: 180px;
+  }
+
+  .create-acc {
+    bottom: 280px;
+    right: 370px;
+  }
+
+  #signuppic {
+    width: 1200px;
+  }
+
+  .content-left-signup {
+    margin-left: -80px;
+  }
+
+  .content-right-signup {
+    margin-top: 200px;
+  }
+
+  .title-signup {
+    top: 315px;
+    right: 600px;
+  }
+
+  .signup-form {
+    top: 410px;
+    right: 140px;
+  }
+
+  .title-forgot {
+    font-size: 40px;
+    font-weight: bold;
+    position: absolute;
+    top: 160px;
+    right: 375px;
+  }
+
+  .forgot-form {
+    top: 570px;
+    right: 160px;
+  }
+
+  .title-forgot {
+    top: 330px;
+    right: 400px;
+  }
+}
