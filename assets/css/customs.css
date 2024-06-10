@@ -3,8 +3,9 @@ body,
 html {
   height: 100%;
   font-size: 17px;
-  background: #105469;
-
+  /* background: #105469; */
+  background-image: linear-gradient(red, yellow);;
+  /* background: #222; */
   font-family: "Open Sans", sans-serif;
 }
 
@@ -97,6 +98,8 @@ nav.sidebar,
     padding: 0 0px 0 0px;
   }
 
+
+
   /*colors dropdown box text */
   .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
     color: #777;
@@ -149,7 +152,8 @@ nav.sidebar,
 
 nav.sidebar .navbar-nav .open .dropdown-menu > li > a:hover,
 nav.sidebar .navbar-nav .open .dropdown-menu > li > a:focus {
-  color: #ccc;
+  /* color: #ccc; */
+  color: black;
   background-color: transparent;
 }
 
@@ -313,6 +317,7 @@ input.input-custom::-moz-placeholder {
 }
 .table-custom > tbody > tr > td {
   color: #fff;
+
   font-weight: 400;
   padding: 0.65em 0.2em;
   text-align: center;
@@ -325,6 +330,7 @@ input.input-custom::-moz-placeholder {
 }
 .table-custom > tbody > tr:hover {
   background: #014055;
+
 }
 
 .table-single-product {

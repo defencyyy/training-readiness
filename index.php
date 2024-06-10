@@ -13,8 +13,8 @@
 <style>
   body {
     background-image: url(assets/pictures/picture1.png);
-    background-size: cover;
-    background-position: center;
+    /* background-size: cover;
+    background-position: center; */
     background-size: auto;
     background-repeat: no-repeat;
   }

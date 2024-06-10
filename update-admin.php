@@ -44,7 +44,7 @@ include("include/sidebar.php");
           <div class="row">
             <div class="col-md-10 col-md-offset-1">
               <div class="well">
-                <h3 class="text-center bg-primary" style="padding: 7px;">Edit Admin</h3><br>
+                <h3 class="text-center bg-primary" style="padding: 7px; color: black;" >Edit Admin</h3><br>
 
 
                       <div class="row">
@@ -53,20 +53,20 @@ include("include/sidebar.php");
                             <div class="form-group">
                               <label class="control-label col-sm-2">Fullname</label>
                               <div class="col-sm-8">
-                                <input type="text" value="<?php echo $row['fullname']; ?>" placeholder="Enter Employee Name" name="em_fullname" list="expense" class="form-control input-custom" id="default" required>
+                                <input type="text" value="<?php echo $row['fullname']; ?>" placeholder="Enter Employee Name" name="em_fullname" list="expense" class="form-control input-custom" id="default" required style="color: black;">
                               </div>
                             </div>
                             
                             <div class="form-group">
                               <label class="control-label col-sm-2">Username</label>
                               <div class="col-sm-8">
-                                <input type="text" value="<?php echo $row['username']; ?>" placeholder="Enter Employee username" name="em_username" class="form-control input-custom" required>
+                                <input type="text" value="<?php echo $row['username']; ?>" placeholder="Enter Employee username" name="em_username" class="form-control input-custom" required style="color: black;">
                               </div>
                             </div>
                             <div class="form-group">
                               <label class="control-label col-sm-2">Email</label>
                               <div class="col-sm-8">
-                                <input type="email" value="<?php echo $row['email']; ?>" placeholder="Enter Employee Email" name="em_email" class="form-control input-custom" required>
+                                <input type="email" value="<?php echo $row['email']; ?>" placeholder="Enter Employee Email" name="em_email" class="form-control input-custom" required style="color: black;">
                               </div>
                             </div>
                       

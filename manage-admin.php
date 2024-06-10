@@ -26,8 +26,8 @@ include("include/sidebar.php");
       <div class="col-md-12">
         <div class="well well-custom">
           <ul class="nav nav-tabs nav-justified nav-tabs-custom">
-            <li class="active"><a href="manage-admin.php">Manage Admin</a></li>
-            <li><a href="admin-manage-user.php">Manage Employee</a></li>
+            <li class="active"><a href="manage-admin.php" >Manage Admin</a></li>
+            <li><a href="admin-manage-user.php" >Manage Employee</a></li>
           </ul>
           <div class="gap"></div>
           <div class="table-responsive">

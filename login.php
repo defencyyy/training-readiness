@@ -34,10 +34,13 @@
 <style>
   body {
     background-image: url(assets/pictures/bgpic.jpg);
-    background-size: cover;
+    /* background-size: cover;
     background-position: center;
     background-size: auto;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
+    width: 100%;
+    height: auto;
+    overflow-x: hidden;
   }
 </style>
 

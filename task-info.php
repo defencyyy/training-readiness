@@ -63,6 +63,15 @@ include("include/sidebar.php");
   });
 </script>
 <style>
+    body {
+    /* background-image: url(assets/pictures/picture1.png); */
+    /* background-image: linear-gradient(red, yellow); */
+    background-size: cover;
+    background-position: center;
+    background-size: auto;
+    background-repeat: no-repeat;
+  }
+
   .select2-container--default .select2-selection--multiple {
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -123,7 +132,7 @@ include("include/sidebar.php");
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h2 class="modal-title text-center">Assign New Task</h2>
+        <h2 class="modal-title text-center">Assign New Task</h2> 
       </div>
       <div class="modal-body">
         <div class="row">
@@ -205,7 +214,7 @@ include("include/sidebar.php");
                         <div class="btn-group">
                             
                                 <div class="btn-group">
-                                    <button class="btn btn-warning btn-menu" data-toggle="modal" data-target="#myModal">Assign New Task</button>
+                                    <button class="btn btn-warning btn-menu" data-toggle="modal" data-target="#myModal" style="color: black" >Assign New Task</button>
                                 </div>
                             
                         </div>
@@ -264,7 +273,7 @@ include("include/sidebar.php");
                 <div class="well well-custom">
                     <div class="gap"></div>
                     <center>
-                        <h3>Your Assigned Tasks</h3>
+                        <h3 >Your Assigned Tasks</h3>
                     </center>
                     <div class="gap"></div>
                     <div class="table-responsive">

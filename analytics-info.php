@@ -93,7 +93,8 @@ include("include/sidebar.php");
 <div class="mains">
     <div class="container">
         <?php if ($user_role == 1) : ?>
-            <h2>Overall Task Analytics</h2>
+            <h2 style="
+    background: white; border-radius: 10px ; padding:10px 10px 10px 10px" >Overall Task Analytics</h2>
             <div class="analytics">
                 <p>Total Tasks: <?php echo $overall_total_tasks; ?></p>
                 <div class="chart-container">
@@ -102,7 +103,8 @@ include("include/sidebar.php");
                     <canvas id="overallIncompleteChart" width="150" height="150"></canvas>
                 </div>
             </div>
-            <h2>Specific Task Analytics</h2>
+            <h2 style="
+    background: white; border-radius: 10px ; padding:10px 10px 10px 10px" >Specific Task Analytics</h2>
             <div class="analytics">
                 <?php
                 $task_stats = [];
@@ -150,7 +152,9 @@ include("include/sidebar.php");
 
         <?php endif; ?>
         <?php if ($user_role != 1) : ?>
-            <h2>Employee Task Analytics</h2>
+            <h2 style= "background-color: white;
+             border-radius: 50px;
+            padding: 10px 10px 10px 10px;">Employee Task Analytics</h2>
             <div class="analytics">
                 <h3>Employee Name: <?php echo $employee_name; ?></h3>
                 <p>Total Tasks: <?php echo $total_tasks; ?></p>
